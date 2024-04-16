@@ -1,0 +1,152 @@
+Names: Aarush Ganji and Alex
+utlns: aganji01 and 
+
+Answer the questions below, and submit your answers under the assignment
+"gerp Design Checkoff" on Gradescope. You must sign up for a design checkoff
+slot with a TA to discuss your provided answers (see spec for sign up link).
+Make sure to submit this file *prior* to your design checkoff.
+
+For each question, give as much detail as you feel is necessary.
+
+1. What classes and structs will you implement for your program? For each class,
+   provide a list of public functions of that class; for each struct, provide a
+   list of member variables.
+
+Answer:
+
+Classes:
+
+FSTree:
+DirNode* getRoot() const - Retrieves the root of the directory tree.
+DirNode:
+bool hasFiles() const - Checks if there are files in the directory.
+bool hasSubDirs() const - Checks if there are subdirectories.
+int numFiles() const - Returns the number of files in the directory.
+int numSubDirs() const - Returns the number of subdirectories.
+string getFile(int index) const - Gets the filename at the specified index.
+DirNode* getSubDir(int index) const - Gets the subdirectory node at the 
+specified index.
+Index (Hypothetical for managing the search index):
+void addWord(const string& word, const string& file, int line) - Adds a 
+word to the index.
+vector<string> search(const string& word) const - Searches for the word 
+in the index.
+
+Structs:
+
+FileLocation:
+string filename
+vector<int> lineNumbers - Stores the lines where the word appears.
+        
+2. Describe the index that you will build for querying. What specific data
+   structures will you use to build this index? *Important*: Bring an
+   accompanying drawing of your index structure when you come to your checkoff.
+
+Answer:
+
+Data Structure: Using a hash table (std::unordered_map) for the index.
+Key: std::string (the word)
+Value: std::vector<FileLocation> (list of files and line numbers where the word 
+appears)
+
+3. To use your index, you will use something for lookup (the key) and you will
+   get some associated data back (the value). What are the C++ *types* of your
+   index's key and value? Examples of valid types: int, string,
+   vector<string>, vector<list<string>>; you may also define custom types using
+   structs/classes, e.g., Animal and vector<Animal> are valid types if you
+   define a struct/class named Animal. If your key/value types involve custom
+   classes/structs, they should be included in your answer to question #1.
+                
+Answer:
+
+Key type: std::string (The word used as the search query)
+Value type: std::vector<FileLocation> 
+(A vector of structures detailing each occurrence of the word across files)        
+
+4. Explain what a collision is versus having multiple lines associated with 
+   a particular word. Write (and/or draw) out an example of when a 
+   collision occurs. Write (and/or draw) out an example of when multiple 
+   lines associated with a single word. 
+
+Answer:
+Collision: Occurs when two different keys hash to the same index in the hash 
+table.
+Multiple Lines: When the same word appears on multiple lines within a file or 
+across files.
+Example for Collision: Two different words "lead" and "deal" hash to the same 
+index.
+Example for Multiple Lines: The word "example" appears on lines 1, 2, and 3 of 
+the same file.
+
+5. What do you expect the *space* complexity of your index will be? How many
+   times will a single line be stored according to your data structures?
+
+Answer:
+Expectation: Given the usage of vectors and hash maps, space complexity 
+will largely depend on the number of unique words and their occurrences.
+Single Line Storage: A line is referenced multiple times only through 
+line numbers, not stored repeatedly.
+
+6. What is the time complexity of *building* your index? If you refer to some
+   variable, be sure to specify what the variable refers to, e.g., in "O(n)",
+   state explicitly what "n" is.
+
+Answer:
+Complexity: O(n * m) where n is the number of files and m is the average 
+number of words per file.
+Explanation: Each word from each file is processed and inserted into the 
+hash table.
+                
+7. What is the time complexity of *using* your index for lookup? As above,
+   be specific about variables you use.
+
+Answer:
+Complexity: Lookup is O(1) on average for finding the list of locations 
+where the word is present, due to the hash table's properties.
+
+8. How will you handle case-sensitive search?
+   What is the time complexity (should be close to O(1))?
+
+Answer:
+Handling: Store words in their original case form in the hash table.
+Time Complexity: O(1) for lookup.
+
+9. How will you handle case-insensitive search?
+   What is the time complexity (should be close to O(1))?
+
+Answer:
+Handling: Convert words to a uniform case (e.g., lowercase) before indexing 
+and searching.
+Time Complexity: O(1) for lookup.
+
+10. How are you handling duplicate words within a line? Consider these two example 
+   lines: 
+
+      (i) the cat and the dog 
+      (ii) the cat and THE dog 
+
+   If a user does a case sensitive query on line (i) it should report 'the' only 
+   once by showing the line only once in the output. How will you do this? 
+
+   If a user does a case insensitive query on line (ii) it should report 'the' 
+   only once by showing the line only once in the output. How will you do this? 
+
+Answer:
+Case-Sensitive: Index the word once per line; use a set to ensure uniqueness
+ before adding to the index.
+Case-Insensitive: Similar to case-sensitive but normalize the case before 
+processing.
+
+11. How will you test your implementation and what specific evidence of testing
+    will you submit?
+
+Answer:
+Methods: Unit tests for each component (FSTree, DirNode, Index), 
+integration tests for the entire indexing and search process.
+Evidence: Test logs and coverage reports showing test cases and outcomes.
+
+12. What is your schedule for completing this assignment? Include specific dates
+    and the tasks that you would like to accomplish by each date. Do not forget
+    testing!
+
+Answer: 
